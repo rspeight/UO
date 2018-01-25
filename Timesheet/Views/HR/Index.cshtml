@@ -1,0 +1,115 @@
+﻿@using Timesheet.Models
+@model Timesheet.Models.TimeSheet
+@{
+    Layout = null;
+}
+<!--This screen renders after someone with the HR role logs in. It displays a menu for week ending date.
+    After selection is submitted, a summary of hours worked by each employee that logged time that week
+    is displayed.-->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Pay Sheet Summaries</title>
+    <style>
+        body {
+            background-color: cadetblue;
+            font-family: Arial;
+        }
+
+        #login-div {
+            position: absolute;
+            left: 40%;
+            top: 40%;
+            padding: 10px 10px;
+        }
+
+        .field-validation-error {
+            color: red;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Get employee and pay summary objects from the session.-->
+    @{var emp = (Employee)Session["Employee"];
+        var paySumList = (List<PaySummary>)Session["PaySummaryList"];
+        }
+    <div>
+        <img src="~/Content/ChatLogo.jpg" alt="ChatLogo" height="250" width="1520" />
+    </div>
+    <div>
+        <h1>Pay Sheet Summaries</h1>
+        <!--Display HR person's first and last name-->
+        <p>Welcome @emp.FirstName @emp.LastName!</p>
+
+        <br />
+        <p>Select a week to review employee pay sheet summaries.</p>
+        <!--Form for selecting a week and viewing pay summaries-->
+        @using (Html.BeginForm("GetPayData", "HR", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.LabelFor(m => m.WeekEnding)
+            @Html.DropDownListFor(m => m.WeekEnding,
+           Model.WeekEndingDates,
+           " - Please select a date - ",
+           new { @class = "form-control"})
+            <button type="submit">Search</button>
+        }
+        <br />
+
+        <!--Table to display pay summaries from the session-->
+                    <table style="width:100%" cellpadding="4">
+                        
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Total Hours</th>
+                            <th>Over Time</th>
+                            <th>Time Sheet Status</th>
+                            <th>Supervisor</th>
+                        </tr>
+                        @{
+                            if (@paySumList != null)
+                            {
+                                foreach (PaySummary paySum in @paySumList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @paySum.EmpName
+                                        </td>
+                                        <td>
+                                            @paySum.TotalHours
+                                        </td>
+                                        <td>
+                                            @paySum.OverTimeHours
+                                        </td>
+                                        <td>
+                                            @paySum.TimeSheetStatus
+                                        </td>
+                                        <td>
+                                            @paySum.SuperName
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+
+                        }
+                    </table>
+                
+              
+            
+
+          
+        <!--Log out link-->
+        <a href="@Url.Action("LogOut", "Login")">LogOut</a>
+    </div>
+</body>
+</html>
