@@ -13,8 +13,7 @@ namespace Timesheet.Models
     using System.Collections.Generic;
     
     public partial class LeaveType
-    {
-        //This is NEW
+    {       
         public int LeaveId { get; set; }
         public string Description { get; set; }
     }
