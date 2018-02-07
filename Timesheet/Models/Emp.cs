@@ -14,7 +14,6 @@ namespace Timesheet.Models
     
     public partial class Emp
     {
-        //minor comments
         public int EmpId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
