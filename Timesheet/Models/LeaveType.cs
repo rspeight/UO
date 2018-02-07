@@ -14,6 +14,7 @@ namespace Timesheet.Models
     
     public partial class LeaveType
     {
+        //This is NEW
         public int LeaveId { get; set; }
         public string Description { get; set; }
     }
