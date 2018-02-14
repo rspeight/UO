@@ -14,7 +14,7 @@ namespace Timesheet.Models
     
     public partial class Emp
     {
-        //Testing AUTO COMMMIT MERGE!!
+        //Testing AUTO COMMMIT MERGE!!!
         public int EmpId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
